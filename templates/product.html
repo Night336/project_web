@@ -1,0 +1,21 @@
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <img src="{% if product.image %}{{ url_for("static", filename=product.image) }}{% else %}{{ 'https://via.placeholder.com/350x150.png?text=No+Image' }}{% endif %}" class="card-img-top" alt="{{ product.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{{ url_for('product', id=product.id) }}"
+                           class="btn btn-sm btn-outline-secondary">Посмотреть</a>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">В корзину</button>
+                    </div>
+                    <small class="text-muted">{{ product.rating }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Корзина</h1>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Цена</th>
+            <th>Итого</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set ns = namespace(price_total=0) %}
+        {% for item in current_user.orders %}
+        <tr>
+            <td>
+                <div class="media">
+                    <img src="https://via.placeholder.com/64x64" class="mr-3" alt="...">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ item.product.name }}</h5>
+                        <p>{{ item.product.description }}</p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="quantity_container">
+                    <button type="button" class="btn btn-sm btn-primary minus-btn" data-id="{{ item.id }}">-</button>
+                    <div class="quantity_container-input"><input type="text" class="form-control quantity-input"
+                                                                 value="{{ item.quantity }}"></div>
+                    <button type="button" class="btn btn-sm btn-primary plus-btn" data-id="{{ item.id }}">+</button>
+                </div>
+            </td>
+
+            <td>{{ item.product.price }} руб.</td>
+            <td>{{ item.product.price * item.quantity }} руб.</td>
+            {% set ns.price_total = ns.price_total + item.product.price * item.quantity %}
+            <td>
+                <button class="btn btn-sm btn-danger">Удалить</button>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row justify-content-end">
+        <div class="col-md-3">
+            <h5>Итого: {{ ns.price_total }} руб.</h5>
+            <a href="#" class="btn btn-primary btn-lg btn-block">Оформить заказ</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
